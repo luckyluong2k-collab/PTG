@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <title>B&#7843;ng T&#237;nh Gi&#225; &#272;&#7913;c L&#432;&#417;ng Sun Group</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar brand-hero">
+      <div class="brand-copy">
+        <p class="eyebrow">Sun Urban City</p>
+        <h1><span>B&#7843;ng T&#237;nh Gi&#225;</span><strong>&#272;&#7913;c L&#432;&#417;ng Sun Group</strong></h1>
+        <div class="social-links" aria-label="Lien he Duc Luong">
+          <a class="social-chip tiktok" href="https://www.tiktok.com/@ducluongbds" target="_blank" rel="noopener" aria-label="Mo TikTok @ducluongbds">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path class="tk-cyan" d="M20.7 5.5c.4 3.7 2.4 5.8 5.8 6.1v4.4c-2.1.1-4-.5-5.7-1.8v7.6c0 4.8-3.1 7.8-7.7 7.8-4.1 0-7.2-2.9-7.2-6.8 0-4.2 3.3-7.1 7.8-6.8v4.5c-2-.3-3.4.6-3.4 2.2 0 1.4 1.1 2.4 2.7 2.4 1.9 0 3-1.1 3-3.5V5.5h4.7z"/>
+              <path class="tk-red" d="M22.2 5.5c.4 3.1 2.1 4.9 5.1 5.2v3.8c-2 .1-3.8-.6-5.1-1.8v7.8c0 4.6-2.8 7.4-7.2 7.4-2.5 0-4.7-1.1-6-2.9 1.2 1 2.7 1.5 4.4 1.5 4.3 0 7.2-2.8 7.2-7.4V5.5h1.6z"/>
+              <path class="tk-dark" d="M19.2 5.5c.4 3.7 2.4 5.8 5.8 6.1v4c-2.1.1-4-.6-5.8-1.9v7.5c0 4.8-3 7.8-7.5 7.8-3.6 0-6.4-2.3-7-5.6.9 1.6 2.6 2.6 4.7 2.6 4.5 0 7.5-3 7.5-7.8V5.5h2.3z"/>
+            </svg>
+            <span>TikTok: <b>@ducluongbds</b></span>
+          </a>
+          <a class="social-chip zalo" href="http://zalo.me/0387335227" target="_blank" rel="noopener" aria-label="Mo Zalo 0387.335.227">
+            <svg viewBox="0 0 36 36" aria-hidden="true">
+              <rect x="2" y="2" width="32" height="32" rx="8"/>
+              <text x="18" y="22" text-anchor="middle">Zalo</text>
+            </svg>
+            <span>Zalo: <b>0387.335.227</b></span>
+          </a>
+        </div>
+      </div>
+      <button class="icon-button" id="resetBtn" type="button" title="Nhap lai">
+        <span aria-hidden="true">&#8635;</span>
+      </button>
+    </header>
+
+    <section class="summary-band" aria-live="polite">
+      <div>
+        <span class="label">Tong gia</span>
+        <strong id="totalPrice">0</strong>
+      </div>
+      <div>
+        <span class="label">Tien truoc</span>
+        <strong id="upfrontPrice">0</strong>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="grid two">
+        <label>
+          Ma can
+          <input id="unitCode" autocomplete="off" value="P90316">
+        </label>
+        <label>
+          Nhom toa
+          <select id="policyGroup">
+            <option value="P3P9">P3-P9</option>
+            <option value="P10P18">P10/P16/P18</option>
+            <option value="P7P15P19">P7/P15/P19</option>
+            <option value="P24P26">P24/P25/P26</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="grid three">
+        <label>
+          Loai can
+          <select id="unitType">
+            <option value="Studio">Studio</option>
+            <option value="1BR+">1BR+</option>
+            <option value="2BR">2BR</option>
+          </select>
+        </label>
+        <label>
+          Dien tich
+          <input id="area" inputmode="decimal" value="29.70">
+        </label>
+        <label>
+          Ngay bao gia
+          <input id="quoteDate" type="date" value="2026-07-08">
+        </label>
+      </div>
+
+      <label>
+        Gia da gom VAT/KPBT
+        <input id="listedGross" inputmode="numeric" value="1,671,152,684" data-money-input>
+      </label>
+
+      <label>
+        Gia chua VAT/KPBT
+        <input id="baseNet" inputmode="numeric" value="1,492,100,611" data-money-input readonly>
+      </label>
+    </section>
+
+    <section class="panel">
+      <h2>Phuong an</h2>
+      <div class="segmented" role="radiogroup" aria-label="Phuong an thanh toan">
+        <button type="button" data-scenario="loan" class="active">Co vay</button>
+        <button type="button" data-scenario="standard">Khong vay</button>
+        <button type="button" data-scenario="tts50">TTS 50%</button>
+        <button type="button" data-scenario="tts70">TTS 70%</button>
+        <button type="button" data-scenario="tts95">TTS 95%</button>
+      </div>
+
+      <div class="switch-row">
+        <label class="switch">
+          <input id="bankGuarantee" type="checkbox" checked>
+          <span>Cong 1% bao lanh NH</span>
+        </label>
+      </div>
+
+      <div class="grid">
+        <label>
+          Ty le vay
+          <input id="loanRatio" inputmode="decimal" value="70">
+        </label>
+      </div>
+    </section>
+
+    <section class="panel results">
+      <h2>Ket qua</h2>
+      <div id="resultRows" class="result-list"></div>
+      <button class="primary" id="copyBtn" type="button">Copy bao gia</button>
+    </section>
+
+    <section class="panel compact">
+      <h2>Chi tiet CK</h2>
+      <div id="discountRows" class="result-list"></div>
+    </section>
+
+    <section class="panel compact">
+      <h2>Tien do tam tinh</h2>
+      <div id="scheduleRows" class="result-list"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
