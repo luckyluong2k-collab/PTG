@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0f766e">
   <title>B&#7843;ng T&#237;nh Gi&#225; &#272;&#7913;c L&#432;&#417;ng Sun Group</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar brand-hero">
+      <img class="brand-logo" src="favicon.png" alt="&#272;&#7913;c L&#432;&#417;ng Sun Group">
       <div class="brand-copy">
         <p class="eyebrow">Sun Urban City</p>
         <h1><span>B&#7843;ng T&#237;nh Gi&#225;</span><strong>&#272;&#7913;c L&#432;&#417;ng Sun Group</strong></h1>
@@ -136,6 +139,21 @@
       <div id="scheduleRows" class="result-list"></div>
     </section>
   </main>
+
+  <div class="free-limit-modal" id="freeLimitModal" role="dialog" aria-modal="true" aria-labelledby="freeLimitTitle" hidden>
+    <div class="free-limit-card">
+      <img src="favicon.png" alt="" aria-hidden="true">
+      <p class="eyebrow">Gi&#7899;i h&#7841;n b&#7843;n free</p>
+      <h2 id="freeLimitTitle">Vui l&#242;ng s&#7917; d&#7909;ng b&#7843;n tr&#7843; ph&#237;</h2>
+      <p>Server kh&#244;ng &#273;&#7911; t&#224;i nguy&#234;n &#273;&#7875; ti&#7871;p t&#7909;c tra c&#7913;u. B&#7843;n free s&#7869; &#273;&#432;&#7907;c m&#7903; l&#7841;i sau:</p>
+      <strong class="free-limit-countdown" id="freeLimitCountdown">30:00</strong>
+      <small>B&#7841;n c&#243; th&#7875; &#273;&#243;ng th&#244;ng b&#225;o; &#273;&#7891;ng h&#7891; v&#7851;n ti&#7871;p t&#7909;c &#273;&#7871;m.</small>
+      <div class="free-limit-actions">
+        <a href="http://zalo.me/0387335227" target="_blank" rel="noopener">Li&#234;n h&#7879; d&#249;ng b&#7843;n tr&#7843; ph&#237;</a>
+        <button id="freeLimitCloseBtn" type="button">&#272;&#243;ng</button>
+      </div>
+    </div>
+  </div>
 
   <div class="toast" id="toast" role="status"></div>
   <script src="app.js"></script>
