@@ -180,7 +180,7 @@ function round(value) {
 }
 
 function money(value) {
-  return `${round(value).toLocaleString("vi-VN")} Ä‘`;
+  return `${round(value).toLocaleString("vi-VN")} đ`;
 }
 
 function inputMoney(value) {
