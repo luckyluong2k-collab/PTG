@@ -1,11 +1,11 @@
-const CACHE_NAME = "park-pricing-v4";
+const CACHE_NAME = "park-pricing-v5-free-limit";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./icon.svg",
+  "./favicon.png",
 ];
 
 self.addEventListener("install", (event) => {
