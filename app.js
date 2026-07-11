@@ -83,10 +83,86 @@ const els = {
   copyBtn: document.querySelector("#copyBtn"),
   resetBtn: document.querySelector("#resetBtn"),
   toast: document.querySelector("#toast"),
+  freeLimitModal: document.querySelector("#freeLimitModal"),
+  freeLimitCountdown: document.querySelector("#freeLimitCountdown"),
+  freeLimitCloseBtn: document.querySelector("#freeLimitCloseBtn"),
 };
 
 let activeScenario = "loan";
 let lastQuoteText = "";
+const FREE_LOOKUP_LIMIT = 5;
+const FREE_COOLDOWN_MS = 30 * 60 * 1000;
+const FREE_LIMIT_STORAGE_KEY = "ptgFreeLookupLimitV1";
+let freeLimitTimer = 0;
+let lastAllowedUnitCode = String(els.unitCode.value || "").trim().toUpperCase();
+
+function readFreeLimitState() {
+  try {
+    const value = JSON.parse(localStorage.getItem(FREE_LIMIT_STORAGE_KEY) || "{}");
+    return {
+      count: Math.max(0, Number(value.count) || 0),
+      lockedUntil: Math.max(0, Number(value.lockedUntil) || 0),
+    };
+  } catch {
+    return { count: 0, lockedUntil: 0 };
+  }
+}
+
+function writeFreeLimitState(state) {
+  localStorage.setItem(FREE_LIMIT_STORAGE_KEY, JSON.stringify(state));
+}
+
+function remainingFreeLimitMs() {
+  const state = readFreeLimitState();
+  if (state.lockedUntil && state.lockedUntil <= Date.now()) {
+    writeFreeLimitState({ count: 0, lockedUntil: 0 });
+    return 0;
+  }
+  return Math.max(0, state.lockedUntil - Date.now());
+}
+
+function updateFreeLimitCountdown() {
+  const remaining = remainingFreeLimitMs();
+  if (!remaining) {
+    window.clearInterval(freeLimitTimer);
+    freeLimitTimer = 0;
+    if (els.freeLimitModal) els.freeLimitModal.hidden = true;
+    return;
+  }
+  const totalSeconds = Math.ceil(remaining / 1000);
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  if (els.freeLimitCountdown) els.freeLimitCountdown.textContent = `${minutes}:${seconds}`;
+}
+
+function showFreeLimitModal() {
+  if (!els.freeLimitModal) return;
+  els.freeLimitModal.hidden = false;
+  updateFreeLimitCountdown();
+  window.clearInterval(freeLimitTimer);
+  freeLimitTimer = window.setInterval(updateFreeLimitCountdown, 1000);
+}
+
+function registerFreeLookup() {
+  const code = String(els.unitCode.value || "").trim().toUpperCase();
+  if (!code || code === lastAllowedUnitCode) return true;
+  if (remainingFreeLimitMs()) {
+    els.unitCode.value = lastAllowedUnitCode;
+    showFreeLimitModal();
+    return false;
+  }
+
+  const state = readFreeLimitState();
+  const nextCount = state.count + 1;
+  lastAllowedUnitCode = code;
+  if (nextCount >= FREE_LOOKUP_LIMIT) {
+    writeFreeLimitState({ count: FREE_LOOKUP_LIMIT, lockedUntil: Date.now() + FREE_COOLDOWN_MS });
+    window.setTimeout(showFreeLimitModal, 80);
+  } else {
+    writeFreeLimitState({ count: nextCount, lockedUntil: 0 });
+  }
+  return true;
+}
 
 function parseMoney(value) {
   if (typeof value === "number") return value;
@@ -104,7 +180,7 @@ function round(value) {
 }
 
 function money(value) {
-  return `${round(value).toLocaleString("vi-VN")} đ`;
+  return `${round(value).toLocaleString("vi-VN")} Ä‘`;
 }
 
 function inputMoney(value) {
@@ -445,6 +521,10 @@ document.querySelectorAll("input, select").forEach((input) => {
     render();
   });
   input.addEventListener("change", () => {
+    if (input === els.unitCode && !registerFreeLookup()) {
+      render();
+      return;
+    }
     if (input.matches?.("[data-money-input]")) {
       formatMoneyInput(input);
     }
@@ -465,6 +545,14 @@ document.querySelectorAll(".segmented button").forEach((button) => {
 });
 
 els.resetBtn.addEventListener("click", resetDefaults);
+
+if (els.freeLimitCloseBtn) {
+  els.freeLimitCloseBtn.addEventListener("click", () => {
+    els.freeLimitModal.hidden = true;
+  });
+}
+
+if (remainingFreeLimitMs()) showFreeLimitModal();
 
 els.copyBtn.addEventListener("click", async () => {
   try {
